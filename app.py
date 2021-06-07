@@ -14,4 +14,6 @@ connect_db(app)
 
 @app.route('/')
 def home_page():
-    return render_template('base.html')
+
+    cupcakes = Cupcake.query.all()
+    return render_template('home.html', cupcakes=cupcakes)
