@@ -9,19 +9,25 @@ DEFAULT_CUPCAKE_IMG = "https://tinyurl.com/demo-cupcake"
 ### CLASSES ###
 
 class Cupcake(db.Model):
-    '''Cupcake'''
+    """Cupcake"""
 
     __tablename__ = "cupcakes"
 
-    id = db.column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    flavor = db.Column(db.Text, nullable=False)
+    size = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Float, nullable=False)
+    image = db.Column(db.Text, nullable=False, default=DEFAULT_CUPCAKE_IMG)
 
-    flavor = db.column(db.Text, nullable=False)
+    def to_dict(self):
 
-    size = db.column(db.Text, nullable=False)
-
-    rating = db.column(db.Float, nullable=False)
-
-    image = db.column(db.Text, nullable=False, default=DEFAULT_CUPCAKE_IMG)
+        return {
+            "id" : self.id,
+            "flavor" : self.flavor,
+            "rating" : self.rating,
+            "size" : self.size,
+            "image" : self.image,
+        }
 
 def connect_db(app):
     '''Connect the db to our app'''
