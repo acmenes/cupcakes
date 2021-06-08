@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row" id="css-row">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="{{ cupcake.image }}" alt="Card image cap">
+                <div class="card-body">
+                <h5 class="card-title">{{ cupcake.flavor }}</h5>
+                <p class="card-text">Size: {{ cupcake.size }}</p>
+                <p class="card-text">Rating: {{ cupcake.rating }}</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+{% endblock %}

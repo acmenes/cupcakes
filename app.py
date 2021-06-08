@@ -4,6 +4,8 @@ from flask import Flask, redirect, render_template, flash, jsonify
 from models import db, connect_db, Cupcake
 from flask_debugtoolbar import DebugToolbarExtension
 
+from forms import AddCupcakeForm, EditCupcakeForm
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///cupcakes'
@@ -16,6 +18,11 @@ connect_db(app)
 # all_cupcakes = [Cupcake.query.all()]
 # return jsonify
 
+@app.route('/')
+def slash_route():
+    cupcakes = Cupcake.query.all()
+    return render_template('home.html', cupcakes=cupcakes)
+
 @app.route('/api/cupcakes')
 def home_page():
 
@@ -23,8 +30,37 @@ def home_page():
     return render_template('home.html', cupcakes=cupcakes)
 
 @app.route('/api/cupcakes/<int:cupcake_id>')
-def cupcake_info():
-    return "cupcake"
+def cupcake_info(cupcake_id):
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    return render_template('cupcake.html', cupcake=cupcake)
+
+@app.route('/api/cupcakes/submit', methods =["GET", "POST"])
+def add_cupcake():
+
+    form = AddCupcakeForm()
+
+    if form.validate_on_submit():
+        new_cupcake = Cupcake(
+            flavor = form.flavor.data,
+            size = form.size.data,
+            rating = form.rating.data,
+            image = form.image.data
+        )
+        db.session.add(new_cupcake)
+        db.session.commit()
+        return redirect ('/api/cupcakes')
+
+    else:
+        return render_template('form.html', form=form)
+    
+@app.route('/api/cupcakes/submit', methods=["GET"])
+def add_cupcake_db():
+    new_cupcake = Cupcake()
+
+    db.session.add(new_cupcake)
+    db.session.commit()
+
+    return redirect('/api/cupcakes')
 
 @app.route('/test')
 def test_json():
