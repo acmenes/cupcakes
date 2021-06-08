@@ -12,8 +12,21 @@ app.config['SECRET_KEY'] = 'MissMillieIsGood'
 
 connect_db(app)
 
-@app.route('/')
+# to serialize the cupcakes 
+# all_cupcakes = [Cupcake.query.all()]
+# return jsonify
+
+@app.route('/api/cupcakes')
 def home_page():
 
     cupcakes = Cupcake.query.all()
     return render_template('home.html', cupcakes=cupcakes)
+
+@app.route('/api/cupcakes/<int:cupcake_id>')
+def cupcake_info():
+    return "cupcake"
+
+@app.route('/test')
+def test_json():
+    all_cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
+    return jsonify(all_cupcakes)

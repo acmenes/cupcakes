@@ -19,7 +19,9 @@ class Cupcake(db.Model):
     rating = db.Column(db.Float, nullable=False)
     image = db.Column(db.Text, nullable=False, default=DEFAULT_CUPCAKE_IMG)
 
-    def to_dict(self):
+    # turning this into something that can be serialized 
+
+    def serialize(self):
 
         return {
             "id" : self.id,
