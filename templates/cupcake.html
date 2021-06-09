@@ -10,7 +10,8 @@
                 <h5 class="card-title">{{ cupcake.flavor }}</h5>
                 <p class="card-text">Size: {{ cupcake.size }}</p>
                 <p class="card-text">Rating: {{ cupcake.rating }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="/api/cupcakes/{{ cupcake.id }}/edit" class="btn btn-primary">Edit</a>
+                <a href="/api/cupcakes/{{ cupcake.id }}/delete" class="btn btn-danger">Delete</a>
                 </div>
             </div>
 

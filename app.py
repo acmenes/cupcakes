@@ -57,7 +57,7 @@ def add_cupcake():
     else:
         return render_template('form.html', form=form)
     
-@app.route('/api/cupcakes/submit', methods=["GET"])
+@app.route('/api/cupcakes/submit', methods=["POST"])
 def add_cupcake_db():
     new_cupcake = Cupcake()
 
@@ -83,11 +83,16 @@ def edit_cupcake(cupcake_id):
         return redirect ('/api/cupcakes')
     
     else:
-        return "edit"
+        return jsonify(cupcake = cupcake.serialize())
 
-@app.route('/api/cupcakes/<int:cupcake_id>/delete')
-def delete_cupcake():
-    return "delete"
+@app.route('/api/cupcakes/<int:cupcake_id>/delete', methods =["DELETE"])
+def delete_cupcake(cupcake_id):
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    
+    db.session.delete(cupcake)
+    db.session.commit()
+
+    return jsonify(message="Cupcake has been deleted")
 
 ### JSON ROUTES ###
 
@@ -98,5 +103,5 @@ def json_cupcakes():
 
 @app.route('/json/cupcakes/<int:cupcake_id>')
 def single_cupcake_json(cupcake_id):
-    serialize_cupcake = [cupcake.serialze() for cupcake in Cupcake.query.get_or_404(cupcake_id)]
-    return jsonify(serialize_cupcake)
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    return jsonify(cupcake = cupcake.serialize())

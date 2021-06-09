@@ -10,7 +10,7 @@
                 <h5 class="card-title">{{ cupcake.flavor }}</h5>
                 <p class="card-text">Size: {{ cupcake.size }}</p>
                 <p class="card-text">Rating: {{ cupcake.rating }}</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a href="/api/cupcakes/{{ cupcake.id }}" class="btn btn-primary">View</a>
                 </div>
             </div>
         {% endfor %}
