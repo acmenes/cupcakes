@@ -96,7 +96,7 @@ def delete_cupcake(cupcake_id):
 
 ### JSON ROUTES ###
 
-@app.route('/json_cupcakes')
+@app.route('/json/cupcakes')
 def json_cupcakes():
     all_cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
     return jsonify(all_cupcakes)
